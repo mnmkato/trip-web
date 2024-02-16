@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body{
+   margin: 0;
+}
+.container{
+    background-image: url(../assets/images/sunset.jpg_large);
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.content{
+    font-family: poppins;
+    background-color: rgb(248, 239, 239, 0.75);
+    padding: 1rem;
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+}
+span{
+    font-size: 20px;
+}
+.search-container {
+    position: relative;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+.search-input {
+    width: 100%;
+    padding:  0.7rem 1rem;
+    border-radius: 1rem;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    color: #888;
+}
+.places-grid{
+    display: flex;
+    overflow-x: auto;
+}
+.place-name{
+    margin-right: 1rem;
+    cursor: pointer;
+}
+.place-image{
+    height: 3rem;
+    border-radius: 50%;
+}
+.trips-grid{
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2,1fr);
+}
+.trip{
+    cursor: pointer; 
+}
+.trips-grid img{
+    width: 100%;
+    border-radius: 1rem;
+}
