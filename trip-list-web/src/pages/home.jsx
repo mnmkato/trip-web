@@ -1,10 +1,20 @@
 import '../styles/style.css';
 import PlaceComponent from '../components/placeComponent';
 import TripComponent from '../components/tripComponent';
-import { Link } from 'react-router-dom';
-
 
 function Home() {
+    const places=[
+                {'id':0, 'name':'jinja'},
+                {'id':1, 'name':'jinja'},
+                {'id':2, 'name':'jinja'},
+                {'id':3, 'name':'jinja'},
+                {'id':4, 'name':'jinja'},
+                {'id':5, 'name':'jinja'}]
+    const trips=[
+                {'id':0},
+                {'id':1},
+                {'id':2},
+                {'id':3}]
   return (
     <div className="container">
     <div className="content">
@@ -17,29 +27,17 @@ function Home() {
         <div className="places">
           <h3>Places</h3>
           <div className="places-grid">
-            <PlaceComponent /> 
-            <PlaceComponent />
-            <PlaceComponent /> 
-            <PlaceComponent />
-            <PlaceComponent /> 
-            <PlaceComponent />
+          {places.map((place) => (
+                <PlaceComponent key={place.id} data={place} /> 
+            ))}
           </div>
         </div>
         <div className="trips-recommended">
           <h3>Trips</h3>
           <div className="trips-grid">
-            <Link to="/tripDetails">
-                <TripComponent />
-            </Link>
-            <Link to="/tripDetails">
-                <TripComponent />
-            </Link>
-            <Link to="/tripDetails">
-                <TripComponent />
-            </Link>
-            <Link to="/tripDetails">
-                <TripComponent />
-            </Link>
+            {trips.map((trip) => (
+                <TripComponent key={trip.id} data={trip} /> 
+            ))}
           </div>
         </div>
       </div>
