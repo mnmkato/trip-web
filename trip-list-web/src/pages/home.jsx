@@ -1,20 +1,10 @@
 import '../styles/style.css';
 import PlaceComponent from '../components/placeComponent';
 import TripComponent from '../components/tripComponent';
+import {places} from '../data.js'
+import {trips} from '../data.js'
 
 function Home() {
-    const places=[
-                {'id':0, 'name':'jinja'},
-                {'id':1, 'name':'jinja'},
-                {'id':2, 'name':'jinja'},
-                {'id':3, 'name':'jinja'},
-                {'id':4, 'name':'jinja'},
-                {'id':5, 'name':'jinja'}]
-    const trips=[
-                {'id':0},
-                {'id':1},
-                {'id':2},
-                {'id':3}]
   return (
     <div className="container">
     <div className="content">
