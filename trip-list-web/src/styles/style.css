@@ -46,10 +46,11 @@ span{
 }
 .places-grid{
     display: flex;
+    gap: 1rem;
     overflow-x: auto;
 }
 .place-name{
-    margin-right: 1rem;
+    text-align: center;
     cursor: pointer;
 }
 .place-image{
@@ -67,4 +68,15 @@ span{
 .trips-grid img{
     width: 100%;
     border-radius: 1rem;
+}
+.upload-form{
+    display: flex;
+    flex-direction: column;
+}
+.upload-form input, .upload-form button {
+    margin: 1rem;
+    padding: 1rem;
+    font-size: 1rem;
+    border: 1px solid black;
+    border-radius: 0.5rem;
 }

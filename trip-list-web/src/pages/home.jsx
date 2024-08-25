@@ -1,10 +1,37 @@
 import '../styles/style.css';
+import React, { useState, useEffect } from 'react';
+import { ref, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase.config.js'; 
+
+import { Link } from 'react-router-dom';
 import PlaceComponent from '../components/placeComponent';
 import TripComponent from '../components/tripComponent';
 import {places} from '../data.js'
-import {trips} from '../data.js'
+import { getDocs, collection } from 'firebase/firestore';
+import { firestore } from '../firebase.config';
 
 function Home() {
+  const [trips, setTrips] = useState([]);
+    const tripsCollectionRef = collection(firestore, 'trips');
+
+    useEffect(() => {
+        const fetchTrips = async () => {
+            try {
+                const querySnapshot = await getDocs(tripsCollectionRef);
+                const tripsData = querySnapshot.docs.map(doc => ({
+                    ...doc.data(),
+                    id: doc.id,
+                }));
+                console.log(tripsData)
+                setTrips(tripsData);
+            } catch (error) {
+                console.error('Error fetching trips:', error);
+            }
+        };
+
+        fetchTrips();
+    }, []);
+
   return (
     <div className="container">
     <div className="content">
@@ -26,7 +53,7 @@ function Home() {
           <h3>Trips</h3>
           <div className="trips-grid">
             {trips.map((trip) => (
-                <TripComponent key={trip.id} data={trip} /> 
+                <TripComponent key={trip.id} tripdata={trip} /> 
             ))}
           </div>
         </div>

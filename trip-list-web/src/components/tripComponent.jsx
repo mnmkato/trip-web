@@ -1,13 +1,11 @@
-import { useState } from 'react';
 import '../styles/style.css';
-import Trip from '../assets/images/trip.jpg';
 import { Link } from 'react-router-dom';
 
-function TripComponent({data}) {
+function TripComponent({tripdata}) {
   return (
-    <Link  to={`/trip/${data.id}`}>
+    <Link  to={`/trip/${tripdata.id}`}>
         <div className="trip">
-            <img src={Trip} alt="trip image" />
+            <img src={tripdata.imageUrl} alt="trip image" />
         </div>
     </Link>
   )

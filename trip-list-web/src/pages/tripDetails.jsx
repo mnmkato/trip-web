@@ -1,49 +1,68 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/trip-style.css';
-import tripImage from '../assets/images/trip.jpg'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faMoneyBills, faFlag, faPhone, faClose } from '@fortawesome/free-solid-svg-icons';
-import { trips } from '../data.js';
+import { doc, getDoc } from 'firebase/firestore';
+import { firestore } from '../firebase.config'; 
 
-function TripDetails(data) {
+function TripDetails() {
     const { id } = useParams();
-    const tripdata = trips[id];
+    const [tripdata, setTripData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [showImage, setShowImage] = useState(false);
-    const [imagePath, setImagePath] = useState(null);
 
     useEffect(() => {
-        const loadImage = async () => {
-            try {
-                const { default: dynamicImage } = await import(`../assets/images/${tripdata.poster}`);
-                setImagePath(dynamicImage);
-            } catch (error) {
-                console.error('Error loading image:', error);
+        const fetchTripData = async () => {
+          try {
+            const tripDocRef = doc(firestore, 'trips', id);
+            const tripDoc = await getDoc(tripDocRef);
+    
+            if (tripDoc.exists()) {
+              setTripData(tripDoc.data());
+            } else {
+              setError('No such document!');
             }
+          } catch (err) {
+            setError('Error fetching document');
+          } finally {
+            setLoading(false);
+          }
         };
 
-        if (tripdata && tripdata.poster) {
-            loadImage();
-        }
-    }, [tripdata]);
-
+        fetchTripData();
+      }, [id]);
+    
     const handleImageToggle = (e) => {
-        if (e.target.classList.contains('trip-container') || e.target.classList.contains('close-icon')) {
+        if (e.target.classList.contains('trip-container') || e.target.classList.contains('close-icon') || e.target.classList.contains('image-div')) {
             setShowImage(!showImage);
         }
     };
 
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
+
     return (
         <div
             className="trip-container"
-            onClick={(e) => handleImageToggle(e)}
+            onClick={(e) => {
+                e.stopPropagation();
+                handleImageToggle(e);
+            }} 
             style={{
-                backgroundImage: imagePath ? `url(${imagePath})` : `url(${tripImage})`
+                backgroundImage: `url(${tripdata.imageUrl})`
             }}>
             {showImage && (
                 <div className="image-div">
-                    <FontAwesomeIcon className='close-icon' icon={faClose} onClick={(e) => handleImageToggle(e)} />
-                    <img className='trip-image' src={imagePath ? imagePath : tripImage} alt="" />
+                    <FontAwesomeIcon 
+                    className='close-icon' 
+                    icon={faClose} 
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        handleImageToggle(e);
+                    }} />
+                    <img className='trip-image' src={tripdata.imageUrl} alt="" />
                 </div>
             )}
             <div className="trip-content">
