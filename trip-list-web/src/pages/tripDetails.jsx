@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import '../styles/trip-style.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar, faMoneyBills, faFlag, faPhone, faClose } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faMoneyBills, faFlag, faPhone, faClose, faLeftLong } from '@fortawesome/free-solid-svg-icons';
 import { doc, getDoc } from 'firebase/firestore';
 import { firestore } from '../firebase.config'; 
+import { Link } from 'react-router-dom';
 
 function TripDetails() {
     const { id } = useParams();
@@ -53,6 +54,13 @@ function TripDetails() {
             style={{
                 backgroundImage: `url(${tripdata.imageUrl})`
             }}>
+            <Link  to={`/`}>
+            <FontAwesomeIcon 
+                className='back-icon' 
+                icon={faLeftLong}
+                />
+            </Link>
+            
             {showImage && (
                 <div className="image-div">
                     <FontAwesomeIcon 

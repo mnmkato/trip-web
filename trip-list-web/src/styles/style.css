@@ -65,6 +65,25 @@ span{
     object-fit: cover; 
     border-radius: 50%; 
 }
+.trips-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cancel-selection-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .cancel-selection-button:hover {
+    background-color: #d32f2f;
+  }
+  
 .trips-grid{
     display: grid;
     gap: 1rem;
