@@ -1,14 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from "react";
 import '../styles/style.css';
-import jinja from '../assets/images/Jinja-City-2.jpg';
+import { ref, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase.config.js'; 
 
-function PlaceComponent({data}) {
+function PlaceComponent({ data }) {
+  const [placesWithImages, setPlacesWithImages] = useState([]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const placeData = await Promise.all(
+          data.map(async (place) => {
+            const imageRef = ref(storage, `places/${place}.jpg`);
+            const imageURL = await getDownloadURL(imageRef);
+            return { name: place, imageURL };
+          })
+        );
+        setPlacesWithImages(placeData);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    };
+
+    fetchImages();
+  }, [data]);
+
   return (
-    <div className='palce-div'>
-        <img className='place-image' src={jinja} alt="Jinja" />
-        <div className='place-name'>{data.name}</div>
-  </div>
-  )
+    <div className="places">
+      <h3>Places</h3>
+      <div className="places-grid">
+        {placesWithImages.map((place, index) => (
+          <div key={index} className='place-div'>
+            <img className='place-image' src={place.imageURL} alt={place.name} />
+            <div className='place-name'>{place.name}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
-export default PlaceComponent
+export default PlaceComponent;

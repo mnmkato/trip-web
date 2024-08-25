@@ -2,16 +2,16 @@ import '../styles/style.css';
 import React, { useState, useEffect } from 'react';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase.config.js'; 
-
 import { Link } from 'react-router-dom';
 import PlaceComponent from '../components/placeComponent';
 import TripComponent from '../components/tripComponent';
-import {places} from '../data.js'
 import { getDocs, collection } from 'firebase/firestore';
 import { firestore } from '../firebase.config';
 
 function Home() {
   const [trips, setTrips] = useState([]);
+
+  const [places, setPlaces] = useState([]); 
     const tripsCollectionRef = collection(firestore, 'trips');
 
     useEffect(() => {
@@ -24,6 +24,8 @@ function Home() {
                 }));
                 console.log(tripsData)
                 setTrips(tripsData);
+                const uniquePlaces = [...new Set(tripsData.map(trip => trip.location))];
+                setPlaces(uniquePlaces);
             } catch (error) {
                 console.error('Error fetching trips:', error);
             }
@@ -41,14 +43,7 @@ function Home() {
         <input type="text" className="search-input" placeholder="Search for trips" />
       </div>
       <div className="trips-div">
-        <div className="places">
-          <h3>Places</h3>
-          <div className="places-grid">
-          {places.map((place) => (
-                <PlaceComponent key={place.id} data={place} /> 
-            ))}
-          </div>
-        </div>
+      <PlaceComponent data={places} /> 
         <div className="trips-recommended">
           <h3>Trips</h3>
           <div className="trips-grid">
